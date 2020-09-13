@@ -1,0 +1,136 @@
+<div *ngIf="employee">
+  <h2>{{employee.prenom | uppercase}} {{employee.nom | uppercase}}  Details</h2>
+  <div hidden><span>id: </span>{{employee.id}}</div>
+  <div *ngIf="employee.actif === true;then content else other_content">here is ignored</div>    
+<ng-template #content><span style="color:red">Attention !</span><br/> <b>L'enregistrement de ce client</b> est : <b><span style="color:red">ACTIF</span></b></ng-template>
+<ng-template #other_content><span style="color:red">Attention !</span><br/> <b>L'enregistrement de ce client </b> est : <b><span style="color:red">INACTIF</span></b></ng-template>
+  <div>
+    <label>
+      Actif:
+      <input [(ngModel)]="employee.actif" type="checkbox" placeholder="actif" data-md-icheck (change)="toggleVisibility($event)" />
+    </label>
+  </div>
+  <div>
+    <label>
+      Prénom:<input [(ngModel)]="employee.prenom" placeholder="prenom" />
+    </label>
+  </div>
+<div>
+    <label>
+      Nom:
+      <input [(ngModel)]="employee.nom" placeholder="nom" />
+    </label>
+</div>
+<div>
+  <p> Date de naissance: {{employee.dateNaissance | date:'shortDate'}}</p> 
+</div>
+<div>
+  <p>Changement date de naissance:</p>
+</div>
+<div>
+  <input matInput (click)="datePicker.open()" (dateInput)="inputEvent($event)" (dateChange)="changeEvent($event)" [matDatepicker]="datePicker" [(ngModel)]="date">
+  <mat-datepicker-toggle [for]="datePicker"></mat-datepicker-toggle> 
+  <mat-datepicker #datePicker></mat-datepicker> 
+</div>
+<div>
+  <p>Clients:</p>
+</div>
+<div class="container-fluid">
+	<p></p>
+	<app-dual-list [sort]="keepSorted" [source]="source" [key]="key" [display]="display" [filter]="filter"
+		[(destination)]="confirmed" height="265px" [format]="format" [disabled]="disabled"></app-dual-list>
+</div>
+<div>
+  <label>
+    Sexe: 
+    <input [(ngModel)]="employee.sexe" placeholder="sexe" hidden/>
+  </label>
+</div>
+<div>
+  <label *ngFor="let radiobutton of radioItems">
+    <input type="radio" name="options" (click)="model.option = radiobutton;employee.sexe = model.option"
+    [checked]="radiobutton === employee.sexe">{{radiobutton}}
+  </label>
+</div>
+<div>
+  <label>
+    Profession: 
+  </label>
+</div>
+<app-professions [item]="employee.idProfession" (newItemEvent)="updOutItemProf($event)"></app-professions>
+<div>
+  <label>
+    Qualification: 
+  </label>
+</div>
+ <app-qualifications [item]="employee.idQualification" (newItemEvent)="updOutItemQuali($event)"></app-qualifications>
+<div>
+  <label>
+    Adresse:
+    <input [(ngModel)]="employee.adresse" placeholder="adresse" />
+  </label>
+</div>
+<div>
+  <label>
+    Ville:
+    <input [(ngModel)]="employee.ville" placeholder="ville" />
+  </label>
+</div>
+<div>
+  <label>
+    Code Postal:
+    <input [(ngModel)]="employee.codePostal" placeholder="codePostal" />
+  </label>
+</div>
+<label>Equipe:</label>
+<app-teams [item]="employee.idTeam" ></app-teams>
+<div>
+  <label>
+    Email professionnel:
+    <input [(ngModel)]="employee.emailProfessionnel" placeholder="emailProfessionnel" />
+  </label>
+</div>
+<div>
+  <label>
+    Email personnel:
+    <input [(ngModel)]="employee.emailPersonnel" placeholder="emailPersonnel" />
+  </label>
+</div>
+<div>
+  <label>
+    Phone professionnel:
+    <input [(ngModel)]="employee.phoneProfessionnel" placeholder="phoneProfessionnel" />
+  </label>
+</div>
+<div>
+  <label>
+    Phone personnel:
+    <input [(ngModel)]="employee.phonePersonnel" placeholder="phonePersonnel" />
+  </label>
+</div>
+<div>
+  <label>
+    <input [(ngModel)]="employee.idSportivite" placeholder="idSportivite" value="1" hidden/>
+  </label>
+</div>
+<div>
+  <label>
+    <input [(ngModel)]="employee.idProfession" placeholder="idProfession" hidden/>
+  </label>
+</div>
+<div>
+  <label>
+    <input [(ngModel)]="employee.idQualification" placeholder="idQualification" hidden/>
+  </label>
+</div>
+<div>
+  <label>
+    <input [(ngModel)]="employee.dateNaissance" placeholder="dateNaissance" hidden/>
+  </label>
+</div>
+
+
+  <button (click)="goBack()">RETOUR</button>
+  <button (click)="save()">ENREGISTREZ</button>
+</div>
+
